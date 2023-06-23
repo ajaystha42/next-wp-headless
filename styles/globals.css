@@ -14,3 +14,16 @@ a {
 * {
   box-sizing: border-box;
 }
+
+.content-container img {
+  width: 100% !important;
+  height: auto;
+}
+
+.content-container figure {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+
+  /* width: 80%; */
+  /* margin: auto; */
+}
