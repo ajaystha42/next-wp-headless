@@ -2,38 +2,20 @@ import styles from "../styles/Home.module.css";
 import Image from "next/image";
 import mypic from "../asset/thumbnail.jpeg";
 import Link from "next/link";
+import axios from "axios";
+
+export const API_SERVER_LINK =
+  "http://localhost/fuse-wp/index.php/wp-json/wp/v2/";
 
 export default function Home({ data }) {
-  // const newData = data.forEach( (post, ind) => {
-  //   const imgLink =
-  //     post?._links["wp:featuredmedia"]?.length > 0
-  //       ? post._links["wp:featuredmedia"][0].href
-  //       : "";
-  //   if (imgLink) {
-  //     const imgUrl = await getImage(imgLink);
-  //     return {
-  //       ...post,
-  //       featuredImage: imgUrl,
-  //     };
-  //   }
-  // });
-  // console.log({ newData });
   return (
     <div className={styles.container}>
       <main className={styles.main}>
-        <div style={{ paddingLeft: "20px" }}>
-          {/* <Link href="/posts/create">
-            <button>Create Post</button>
-          </Link> */}
-        </div>
+        <div style={{ paddingLeft: "20px" }}></div>
         <div className={styles.grid}>
           {data.map((post, index) => {
             return (
-              <Link
-                key={index}
-                className={styles.card}
-                href={`pages/${post.id}`}
-              >
+              <Link key={index} className={styles.card} href={`/${post.slug}`}>
                 <div style={{ overflow: "hidden" }}>
                   {/* <Image
                     src={mypic}
@@ -56,10 +38,8 @@ export default function Home({ data }) {
 }
 
 export async function getServerSideProps(context) {
-  const res = await fetch(
-    "http://localhost/wordpress/index.php/wp-json/wp/v2/pages"
-  );
-  const data = await res.json();
+  const res = await axios.get(`${API_SERVER_LINK}pages`);
+  const { data } = res;
   if (!data) {
     return {
       notFound: true,
